@@ -9,12 +9,16 @@ dotenv.config();
 app.use(cors());
 app.use(express.json())
 
-const Mongo_client = new MongoClient(process.env.MONGODB_URL);
-let db = (await Mongo_client.connect()).db("Routine");
+const connect =async () =>{
+    const Mongo_client = new MongoClient(process.env.MONGODB_URL);
+    db = (await Mongo_client.connect()).db("Routine");
+}
+let db 
 
-
-app.listen(5003, async () => {
-    console.log("Server Started on http://localhost:" + 5003);
+connect().then(() => {
+    app.listen(5003, async () => {
+        console.log("Server Started on http://localhost:" + 5003);
+    })
 })
 
 app.get('/api/yala', async (req, res) => {
